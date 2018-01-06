@@ -32,6 +32,22 @@ func TestInvalidKey(t *testing.T) {
 	assert.Equal(t, map[string]string{}, config)
 }
 
+func TestNoNewLine(t *testing.T) {
+	validConfig := "[user] name = Danyel"
+	config, lineno, err := Parse([]byte(validConfig))
+	assert.Equal(t, nil, err)
+	assert.Equal(t, 1, int(lineno))
+	assert.Equal(t, map[string]string{"user.name": "Danyel"}, config)
+}
+
+func TestExtended(t *testing.T) {
+	validConfig := `[http "https://my-website.com"] sslVerify = false`
+	config, lineno, err := Parse([]byte(validConfig))
+	assert.Equal(t, nil, err)
+	assert.Equal(t, 1, int(lineno))
+	assert.Equal(t, map[string]string{`http.https://my-website.com.sslverify`: "false"}, config)
+}
+
 func ExampleParse() {
 	gitconfig := "configs/danyel.gitconfig"
 	bytes, err := ioutil.ReadFile(gitconfig)
