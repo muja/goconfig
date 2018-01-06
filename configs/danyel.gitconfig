@@ -1,0 +1,9 @@
+; This is a comment !\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcd"
+# This is another comment !\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcd"
+[user]
+	name = Danyel Bayraktar
+	email = cydrop@gmail.com
+[core]
+	editor = subl -w
+[alias]
+	aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort
