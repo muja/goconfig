@@ -30,7 +30,7 @@ func (cf *parser) parse(bytes []byte) (map[string]string, error) {
 			} else {
 				/* Do not tolerate partial BOM. */
 				if bomPtr != 0 {
-					return nil, ErrPartialBOM
+					return cfg, ErrPartialBOM
 				}
 				bomPtr = -1
 			}
@@ -63,7 +63,7 @@ func (cf *parser) parse(bytes []byte) (map[string]string, error) {
 		key := name + string(c)
 		value, err := cf.getValue(&key)
 		if err != nil {
-			return nil, err
+			return cfg, err
 		}
 		cfg[key] = value
 	}
