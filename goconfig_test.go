@@ -1,8 +1,13 @@
 package goconfig
 
-import "testing"
-import "io/ioutil"
-import "github.com/stretchr/testify/assert"
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestDanyel(t *testing.T) {
 	filename := "configs/danyel.gitconfig"
@@ -23,6 +28,27 @@ func TestInvalidKey(t *testing.T) {
 	invalidConfig := ".name = Danyel"
 	config, lineno, err := Parse([]byte(invalidConfig))
 	assert.Equal(t, ErrInvalidKeyChar, err)
-	assert.Equal(t, 2, int(lineno))
+	assert.Equal(t, 1, int(lineno))
 	assert.Equal(t, map[string]string{}, config)
+}
+
+func ExampleParse() {
+	gitconfig := "configs/danyel.gitconfig"
+	bytes, err := ioutil.ReadFile(gitconfig)
+	if err != nil {
+		log.Fatalf("Couldn't read file %v\n", gitconfig)
+	}
+
+	config, lineno, err := Parse(bytes)
+	if err != nil {
+		log.Fatalf("Error on line %d: %v\n", lineno, err)
+	}
+	fmt.Println()
+	fmt.Println(lineno)
+	fmt.Println(config["user.name"])
+	fmt.Println(config["user.email"])
+	// Output:
+	// 10
+	// Danyel Bayraktar
+	// cydrop@gmail.com
 }
