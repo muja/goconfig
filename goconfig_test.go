@@ -68,3 +68,16 @@ func ExampleParse() {
 	// Danyel Bayraktar
 	// cydrop@gmail.com
 }
+
+func BenchmarkParse(b *testing.B) {
+	gitconfig := "configs/danyel.gitconfig"
+	bytes, err := ioutil.ReadFile(gitconfig)
+	if err != nil {
+		b.Fatalf("Couldn't read file %v: %s\n", gitconfig, err)
+	}
+
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		Parse(bytes)
+	}
+}
